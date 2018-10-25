@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  web:
+    build: ./
+    container_name: rust-hyper
+    command: ./rust-hyper
+    environment:
+      RUST_LOG: "rust_hyper=info"
+      RUST_BACKTRACE: "1"
+      NOM_SERVER_PORT: 8085
+      NOM_SERVER_HOST: "0.0.0.0"
+    ports:
+      - "8085:8085"
