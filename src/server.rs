@@ -12,6 +12,8 @@ type HttpHeaders = http::HeaderMap;
 
 pub fn run() -> Result<(), Box<::std::error::Error>> {
     let addr = ::cfg::hyper_server_addr().map_err(Box::new)?;
+    info!("starting server"; "addr" => addr);
+
     let server = hyper::Server::bind(&addr)
         .serve(|| service_fn_ok(root_handler))
         .map_err(|e| eprintln!("server error: {}", e));
@@ -20,6 +22,7 @@ pub fn run() -> Result<(), Box<::std::error::Error>> {
 
 fn root_handler(req: HttpRequest) -> HttpResponse {
     let (parts, body) = req.into_parts();
+    trace!("handle request"; "method" => parts.method.to_string(), "path" => parts.uri.path());
 
     match parts.method {
         HttpMethod::GET => route_get(parts.uri, parts.headers),

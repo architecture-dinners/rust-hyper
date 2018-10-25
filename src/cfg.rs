@@ -27,10 +27,9 @@ struct ServerConfig {
 
 fn init_config() -> Result<Configuration, ConfigError> {
     let mut config = Config::new();
-
     config.set_default("server.host", "127.0.0.1")?;
-    config.set_default("server.port", 2018)?;
+    config.set_default("server.port", 8085)?;
 
-    config.merge(Environment::with_prefix("nom"))?;
+    config.merge(Environment::new().prefix("nom").separator("_"))?;
     config.try_into()
 }
